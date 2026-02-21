@@ -1,0 +1,66 @@
+<div class="page-container">
+  <h2>Mein Profil</h2>
+
+  <p-tabs value="0">
+    <p-tablist>
+      <p-tab value="0">Profil bearbeiten</p-tab>
+      <p-tab value="1">Meine Bewertungen ({{ totalReviews }})</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <p-card styleClass="mt-3">
+          @if (message) {
+            <p-message severity="success" [text]="message" styleClass="mb-3" />
+          }
+          @if (error) {
+            <p-message severity="error" [text]="error" styleClass="mb-3" />
+          }
+
+          <div class="form-group">
+            <label>E-Mail</label>
+            <input pInputText [value]="authService.user()?.email" disabled [style]="{ width: '100%' }" />
+            <small class="hint">E-Mail-Adresse kann nicht geändert werden</small>
+          </div>
+
+          <div class="form-group">
+            <label>Name</label>
+            <input pInputText [(ngModel)]="displayName" [style]="{ width: '100%' }" />
+          </div>
+
+          <div class="form-group">
+            <label>Profilbild URL</label>
+            <input pInputText [(ngModel)]="profileImageUrl" placeholder="https://..."
+                   [style]="{ width: '100%' }" />
+          </div>
+
+          <p-button label="Speichern" icon="pi pi-save" (onClick)="saveProfile()"
+                    [loading]="saving" styleClass="mt-2" />
+        </p-card>
+      </p-tabpanel>
+
+      <p-tabpanel value="1">
+        <div class="mt-3">
+          @if (reviews.length === 0) {
+            <p class="empty-state">Sie haben noch keine Bewertungen abgegeben.</p>
+          } @else {
+            @for (review of reviews; track review.id) {
+              <p-card styleClass="review-card mb-2">
+                <div class="review-header">
+                  <a [routerLink]="['/streets', review.streetId]" class="review-street-link">
+                    <i class="pi pi-map-marker"></i>
+                    Straße #{{ review.streetId }}
+                  </a>
+                  <span class="review-date">{{ formatDate(review.createdAt) }}</span>
+                </div>
+                <p-rating [ngModel]="review.overallRating" [readonly]="true" [stars]="5" />
+                @if (review.comment) {
+                  <p class="review-comment mt-1">{{ review.comment }}</p>
+                }
+              </p-card>
+            }
+          }
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</div>

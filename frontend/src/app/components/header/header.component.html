@@ -1,0 +1,24 @@
+<header class="header">
+  <div class="header-content">
+    <a routerLink="/" class="logo">
+      <i class="pi pi-home"></i>
+      <span>LivingRank</span>
+    </a>
+    <nav class="nav-links">
+      @if (authService.loggedIn()) {
+        <a routerLink="/profile" class="nav-link">
+          <i class="pi pi-user"></i>
+          {{ authService.user()?.displayName }}
+        </a>
+        <p-button label="Abmelden" icon="pi pi-sign-out" [text]="true" severity="secondary" (onClick)="logout()" />
+      } @else {
+        <a routerLink="/login">
+          <p-button label="Anmelden" icon="pi pi-sign-in" [text]="true" />
+        </a>
+        <a routerLink="/register">
+          <p-button label="Registrieren" icon="pi pi-user-plus" [outlined]="true" severity="primary" />
+        </a>
+      }
+    </nav>
+  </div>
+</header>

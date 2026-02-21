@@ -1,0 +1,54 @@
+.form-group {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+.hint {
+  color: #999;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-street-link {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  .pi-map-marker {
+    margin-right: 0.25rem;
+  }
+}
+
+.review-date {
+  color: #bbb;
+  font-size: 0.8rem;
+}
+
+.review-comment {
+  color: #555;
+  line-height: 1.5;
+}

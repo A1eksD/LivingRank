@@ -1,0 +1,32 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 70px);
+  padding: 2rem 1rem;
+}
+
+:host ::ng-deep .auth-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.success-icon {
+  font-size: 3rem;
+  color: #27ae60;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.error-icon {
+  font-size: 3rem;
+  color: #e74c3c;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.link {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: underline;
+}

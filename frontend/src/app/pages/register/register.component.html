@@ -1,0 +1,43 @@
+<div class="auth-page">
+  <p-card styleClass="auth-card">
+    <h2 class="text-center">Registrieren</h2>
+
+    @if (registered) {
+      <p-message severity="success" [text]="message" styleClass="mb-3" />
+      <p class="text-center mt-2">
+        <a routerLink="/login" class="link">Zur Anmeldung</a>
+      </p>
+    } @else {
+      @if (error) {
+        <p-message severity="error" [text]="error" styleClass="mb-3" />
+      }
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input pInputText id="name" type="text" [(ngModel)]="request.displayName"
+               placeholder="Ihr Name" [style]="{ width: '100%' }" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input pInputText id="email" type="email" [(ngModel)]="request.email"
+               placeholder="ihre@email.de" [style]="{ width: '100%' }" />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Passwort (mind. 8 Zeichen)</label>
+        <p-password id="password" [(ngModel)]="request.password" [toggleMask]="true"
+                    placeholder="Passwort" [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }" />
+      </div>
+
+      <p-button label="Registrieren" icon="pi pi-user-plus" (onClick)="register()"
+                [loading]="loading" [style]="{ width: '100%' }" styleClass="mt-2" />
+
+      <p class="text-center mt-3">
+        Bereits ein Konto?
+        <a routerLink="/login" class="link">Anmelden</a>
+      </p>
+    }
+  </p-card>
+</div>

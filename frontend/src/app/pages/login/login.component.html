@@ -1,0 +1,37 @@
+<div class="auth-page">
+  <p-card styleClass="auth-card">
+    <h2 class="text-center">Anmelden</h2>
+
+    @if (error) {
+      <p-message severity="error" [text]="error" styleClass="mb-3" />
+    }
+
+    <div class="form-group">
+      <label for="email">E-Mail</label>
+      <input pInputText id="email" type="email" [(ngModel)]="credentials.email"
+             placeholder="ihre@email.de" [style]="{ width: '100%' }" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Passwort</label>
+      <p-password id="password" [(ngModel)]="credentials.password" [toggleMask]="true"
+                  [feedback]="false" placeholder="Passwort" [style]="{ width: '100%' }"
+                  [inputStyle]="{ width: '100%' }" (keyup.enter)="login()" />
+    </div>
+
+    <p-button label="Anmelden" icon="pi pi-sign-in" (onClick)="login()"
+              [loading]="loading" [style]="{ width: '100%' }" styleClass="mt-2" />
+
+    <p-divider align="center">
+      <span class="divider-text">oder</span>
+    </p-divider>
+
+    <p-button label="Mit Google anmelden" icon="pi pi-google" [outlined]="true"
+              severity="secondary" (onClick)="loginWithGoogle()" [style]="{ width: '100%' }" />
+
+    <p class="text-center mt-3">
+      Noch kein Konto?
+      <a routerLink="/register" class="link">Jetzt registrieren</a>
+    </p>
+  </p-card>
+</div>

@@ -1,0 +1,41 @@
+<div class="page-container">
+  <h2 class="mb-3">Suchergebnisse für "{{ query }}"</h2>
+
+  @if (loading) {
+    <div class="text-center mt-4">
+      <p-progressSpinner />
+    </div>
+  } @else if (streets.length === 0) {
+    <div class="empty-state">
+      <i class="pi pi-map-marker"></i>
+      <p>Keine Straßen gefunden. Versuche einen anderen Suchbegriff.</p>
+    </div>
+  } @else {
+    <div class="results-grid">
+      @for (street of streets; track street.id) {
+        <a [routerLink]="['/streets', street.id]" class="street-card">
+          <p-card>
+            <div class="card-content">
+              <div class="card-info">
+                <h3 class="street-name">{{ street.streetName }}</h3>
+                <p class="street-location">
+                  <i class="pi pi-map-marker"></i>
+                  {{ street.postalCode }} {{ street.city }}, {{ street.country }}
+                </p>
+              </div>
+              <div class="card-rating">
+                @if (street.averageRating) {
+                  <div class="rating-value">{{ street.averageRating | number:'1.1-1' }}</div>
+                  <p-rating [(ngModel)]="street.averageRating" [readonly]="true" [stars]="5" />
+                  <span class="review-count">{{ street.reviewCount }} Bewertungen</span>
+                } @else {
+                  <span class="no-reviews">Noch keine Bewertungen</span>
+                }
+              </div>
+            </div>
+          </p-card>
+        </a>
+      }
+    </div>
+  }
+</div>

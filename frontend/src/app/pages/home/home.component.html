@@ -1,0 +1,62 @@
+<div class="home-container">
+  <section class="hero">
+    <h1 class="hero-title">Bewerte deine Nachbarschaft</h1>
+    <p class="hero-subtitle">Finde ehrliche, anonyme Bewertungen zu Straßen in Deutschland und Europa</p>
+
+    <div class="search-box">
+      <p-autocomplete
+        [(ngModel)]="searchQuery"
+        [suggestions]="suggestions"
+        (completeMethod)="searchStreets($event)"
+        (onSelect)="onSelect($event)"
+        [optionLabel]="'streetName'"
+        placeholder="Straße, Ort eingeben..."
+        [style]="{ width: '100%' }"
+        [inputStyle]="{ width: '100%', fontSize: '1.1rem', padding: '0.75rem 1rem' }"
+        [showEmptyMessage]="true"
+        emptyMessage="Keine Ergebnisse gefunden"
+        (keyup.enter)="onSearch()">
+        <ng-template let-street pTemplate="item">
+          <div class="suggestion-item">
+            <i class="pi pi-map-marker"></i>
+            <div>
+              <div class="suggestion-street">{{ street.streetName }}</div>
+              <div class="suggestion-city">{{ street.postalCode }} {{ street.city }}, {{ street.country }}</div>
+            </div>
+            @if (street.averageRating) {
+              <span class="suggestion-rating">
+                <i class="pi pi-star-fill"></i>
+                {{ street.averageRating | number:'1.1-1' }}
+              </span>
+            }
+          </div>
+        </ng-template>
+      </p-autocomplete>
+      <p-button icon="pi pi-search" label="Suchen" (onClick)="onSearch()" [style]="{ marginLeft: '0.5rem' }" />
+    </div>
+  </section>
+
+  <section class="steps">
+    <div class="step">
+      <div class="step-icon">
+        <i class="pi pi-search"></i>
+      </div>
+      <h3>Suchen</h3>
+      <p>Gib eine Straße oder einen Ort ein</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">
+        <i class="pi pi-check-circle"></i>
+      </div>
+      <h3>Auswählen</h3>
+      <p>Wähle das passende Ergebnis</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">
+        <i class="pi pi-star"></i>
+      </div>
+      <h3>Bewerten & Lesen</h3>
+      <p>Lies Bewertungen oder bewerte anonym</p>
+    </div>
+  </section>
+</div>

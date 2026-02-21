@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: livingrank-test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/livingrank_test
+    username: livingrank
+    password: livingrank_dev
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  flyway:
+    enabled: false
+  mail:
+    host: localhost
+    port: 1025
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-client-id
+            client-secret: test-client-secret
+            scope: email,profile
+
+app:
+  jwt:
+    secret: test-secret-key-that-is-at-least-256-bits-long-for-hs256-testing
+    expiration-ms: 86400000
+  cors:
+    allowed-origins: http://localhost:4200
+  mail:
+    from: test@livingrank.de
+  frontend-url: http://localhost:4200
+
+server:
+  port: 0

@@ -1,0 +1,98 @@
+@if (loading) {
+  <div class="text-center mt-4">
+    <p-progressSpinner />
+  </div>
+} @else if (streetDetail) {
+  <div class="page-container">
+    <!-- Street Header -->
+    <div class="street-header">
+      <div class="header-info">
+        <h1>{{ streetDetail.street.streetName }}</h1>
+        <p class="location">
+          <i class="pi pi-map-marker"></i>
+          {{ streetDetail.street.postalCode }} {{ streetDetail.street.city }},
+          {{ streetDetail.street.stateRegion || '' }} {{ streetDetail.street.country }}
+        </p>
+      </div>
+      <div class="header-rating">
+        @if (streetDetail.street.averageRating) {
+          <div class="big-rating">{{ streetDetail.street.averageRating | number:'1.1-1' }}</div>
+          <p-rating [ngModel]="streetDetail.street.averageRating" [readonly]="true" [stars]="5" />
+          <span class="review-count">{{ streetDetail.street.reviewCount }} Bewertungen</span>
+        } @else {
+          <span class="no-reviews">Noch keine Bewertungen</span>
+        }
+      </div>
+    </div>
+
+    <!-- Write Review Button -->
+    @if (canWriteReview()) {
+      <div class="write-review-banner">
+        <span>Teilen Sie Ihre Erfahrung mit dieser Straße!</span>
+        <a [routerLink]="['/streets', streetId, 'review']">
+          <p-button label="Bewertung schreiben" icon="pi pi-pencil" />
+        </a>
+      </div>
+    } @else if (authService.loggedIn() && streetDetail.userHasReviewed) {
+      <div class="already-reviewed">
+        <i class="pi pi-check-circle"></i>
+        Sie haben diese Straße bereits bewertet.
+      </div>
+    } @else if (!authService.loggedIn()) {
+      <div class="login-prompt">
+        <a routerLink="/login">Melden Sie sich an</a>, um eine Bewertung zu schreiben.
+      </div>
+    }
+
+    <!-- Criteria Averages -->
+    @if (getCriteriaEntries().length > 0) {
+      <p-card header="Kriterienübersicht" styleClass="mb-3 mt-3">
+        <div class="criteria-grid">
+          @for (entry of getCriteriaEntries(); track entry.key) {
+            <div class="criteria-item">
+              <div class="criteria-label">{{ entry.label }}</div>
+              <div class="criteria-bar">
+                <p-progressBar [value]="getProgressValue(entry.value)" [showValue]="false" />
+              </div>
+              <div class="criteria-value">{{ entry.value | number:'1.1-1' }}</div>
+            </div>
+          }
+        </div>
+      </p-card>
+    }
+
+    <!-- Reviews List -->
+    <h2 class="mt-4 mb-2">Bewertungen</h2>
+    @if (reviews.length === 0) {
+      <div class="empty-reviews">
+        <p>Noch keine Bewertungen vorhanden. Sei der Erste!</p>
+      </div>
+    } @else {
+      @for (review of reviews; track review.id) {
+        <p-card styleClass="review-card mb-2">
+          <div class="review-header">
+            <div class="review-meta">
+              <i class="pi pi-user"></i>
+              <span>Anonymer Nutzer</span>
+              <span class="review-date">{{ formatDate(review.createdAt) }}</span>
+            </div>
+            <div class="review-rating">
+              <p-rating [ngModel]="review.overallRating" [readonly]="true" [stars]="5" />
+            </div>
+          </div>
+          @if (review.comment) {
+            <p class="review-comment">{{ review.comment }}</p>
+          }
+        </p-card>
+      }
+
+      @if (totalReviews > pageSize) {
+        <p-paginator
+          [rows]="pageSize"
+          [totalRecords]="totalReviews"
+          [first]="currentPage * pageSize"
+          (onPageChange)="onPageChange($event)" />
+      }
+    }
+  </div>
+}
